@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#111111">
+    <meta name="description" content="Tiket resmi Hob Invasion.">
+    <title>Hob Invasion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { flame: '#FF5400', ink: '#111111', paper: '#F4F0E8' },
+                    fontFamily: {
+                        display: ['Archivo Black', 'Impact', 'sans-serif'],
+                        sans: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --flame: #ff5400;
+            --ink: #111;
+            --paper: #f4f0e8;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--ink);
+            color: var(--paper);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .display {
+            font-family: 'Archivo Black', Impact, sans-serif;
+            letter-spacing: 0;
+        }
+
+        .noise {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .noise::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            opacity: .14;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+        }
+
+        .hero-image {
+            background-image: linear-gradient(90deg, rgba(17, 17, 17, .98) 0%, rgba(17, 17, 17, .82) 48%, rgba(17, 17, 17, .28) 100%), url('https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=2000&q=85');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .grid-lines {
+            background-image: linear-gradient(rgba(244, 240, 232, .08) 1px, transparent 1px), linear-gradient(90deg, rgba(244, 240, 232, .08) 1px, transparent 1px);
+            background-size: 38px 38px;
+        }
+
+        .ticket-card {
+            transition: transform .2s ease, border-color .2s ease, background-color .2s ease;
+        }
+
+        .ticket-card:hover,
+        .ticket-card.active {
+            transform: translateY(-5px);
+            border-color: var(--flame);
+        }
+
+        .ticket-card.active {
+            background: var(--flame);
+            color: var(--ink);
+        }
+
+        .ticket-card.active .ticket-muted {
+            color: rgba(17, 17, 17, .7);
+        }
+
+        .reveal {
+            animation: reveal .75s cubic-bezier(.2, .8, .2, 1) both;
+        }
+
+        .reveal-delay {
+            animation-delay: .12s;
+        }
+
+        @keyframes reveal {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        input,
+        select {
+            color-scheme: dark;
+        }
+
+        input:focus,
+        select:focus {
+            outline: 2px solid var(--flame);
+            outline-offset: 2px;
+        }
+
+        @media (max-width: 640px) {
+            .hero-image {
+                background-position: 63% center;
+            }
+        }
+
+        .purchase-only>header,
+        .purchase-only>main>#lineup,
+        .purchase-only>main>#tickets,
+        .purchase-only>footer {
+            display: none;
+        }
+
+        .purchase-only #order {
+            min-height: 100vh;
+            padding-top: 3rem;
+        }
+
+        .purchase-only #order>div {
+            min-height: calc(100vh - 6rem);
+            align-items: center;
+        }
+
+        .purchase-only .ticket-card,
+        .purchase-only #ticket-select {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="purchase-only noise overflow-x-hidden">
+    <!-- Ganti URL ini dengan URL deployment Web App Apps Script Anda. -->
+    <script>const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwyRw-R44TgOXmXyKav1gzgjD-p54QFHlZvbnXG0jzB7VguXLLNt_5NXmoob69lEETf9Q/exec';</script>
+
+    <header class="hero-image min-h-[720px] border-b border-white/10">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 lg:px-10">
+            <a href="#top" class="display text-lg tracking-tight text-flame">RL<span class="text-paper">/25</span></a>
+            <div class="hidden items-center gap-8 text-xs font-bold uppercase tracking-[.2em] text-paper/70 sm:flex">
+                <a class="transition hover:text-flame" href="#lineup">Lineup</a>
+                <a class="transition hover:text-flame" href="#tickets">Tiket</a>
+                <a class="transition hover:text-flame" href="#order">Pesan</a>
+            </div>
+            <a href="#order"
+                class="border border-flame px-4 py-2 text-xs font-bold uppercase tracking-widest text-flame transition hover:bg-flame hover:text-ink">Book
+                now</a>
+        </nav>
+
+        <div id="top"
+            class="mx-auto grid max-w-7xl items-end gap-12 px-5 pb-24 pt-24 lg:grid-cols-[1.1fr_.9fr] lg:px-10 lg:pb-32 lg:pt-28">
+            <div class="reveal">
+                <p class="mb-7 flex items-center gap-3 text-xs font-bold uppercase tracking-[.28em] text-flame"><span
+                        class="h-px w-10 bg-flame"></span> Jakarta / Open air music</p>
+                <h1 class="display max-w-4xl text-[clamp(3.7rem,10vw,9rem)] leading-[.86] text-paper">RITME<br><span
+                        class="text-flame">LIAR</span></h1>
+                <p class="mt-9 max-w-md text-lg leading-relaxed text-paper/70">Satu malam. Tiga panggung. Suara-suara
+                    paling berisik dari skena independen.</p>
+                <a href="#tickets"
+                    class="mt-9 inline-flex items-center gap-4 bg-flame px-6 py-4 text-sm font-bold uppercase tracking-widest text-ink transition hover:bg-paper">Amankan
+                    tiket <span aria-hidden="true">→</span></a>
+            </div>
+            <div class="reveal reveal-delay grid grid-cols-2 border-l border-flame/60 pl-6 text-sm lg:mb-3">
+                <div class="border-b border-white/20 pb-7">
+                    <p class="mb-2 text-xs uppercase tracking-[.2em] text-paper/50">Tanggal</p>
+                    <p class="display text-xl text-flame">24.08.25</p>
+                    <p class="mt-1 text-paper/70">Sabtu, 15.00 - selesai</p>
+                </div>
+                <div class="border-b border-white/20 pb-7">
+                    <p class="mb-2 text-xs uppercase tracking-[.2em] text-paper/50">Lokasi</p>
+                    <p class="display text-xl text-flame">GBK</p>
+                    <p class="mt-1 text-paper/70">Parkir Timur, Jakarta</p>
+                </div>
+                <div class="col-span-2 pt-7">
+                    <p class="text-xs uppercase tracking-[.2em] text-paper/50">Presented by</p>
+                    <p class="mt-2 text-lg font-bold">Riotroom × Kamar Musik</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="lineup" class="grid-lines border-b border-white/10 px-5 py-20 lg:px-10 lg:py-28">
+            <div class="mx-auto max-w-7xl">
+                <div class="mb-12 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+                    <div>
+                        <p class="mb-3 text-xs font-bold uppercase tracking-[.25em] text-flame">01 / The noise</p>
+                        <h2 class="display text-4xl uppercase leading-none sm:text-6xl">Lineup<br><span
+                                class="text-flame">tanpa rem</span></h2>
+                    </div>
+                    <p class="max-w-xs text-sm leading-relaxed text-paper/55">Dikurasi untuk telinga yang tidak pernah
+                        puas. Datang lebih awal, pulang lebih keras.</p>
+                </div>
+                <div class="grid gap-px border border-white/15 bg-white/15 sm:grid-cols-2 lg:grid-cols-4">
+                    <article class="group relative min-h-72 overflow-hidden bg-[#242321] p-6">
+                        <div
+                            class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=700&q=80')] bg-cover bg-center opacity-45 transition duration-500 group-hover:scale-105 group-hover:opacity-65">
+                        </div>
+                        <div class="relative flex h-full flex-col justify-between">
+                            <p class="text-xs font-bold uppercase tracking-widest text-flame">Headliner / 21.30</p>
+                            <h3 class="display text-3xl leading-none">THE<br>ADAMS</h3>
+                        </div>
+                    </article>
+                    <article class="group relative min-h-72 overflow-hidden bg-[#242321] p-6">
+                        <div
+                            class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=700&q=80')] bg-cover bg-center opacity-45 transition duration-500 group-hover:scale-105 group-hover:opacity-65">
+                        </div>
+                        <div class="relative flex h-full flex-col justify-between">
+                            <p class="text-xs font-bold uppercase tracking-widest text-flame">Main stage / 19.45</p>
+                            <h3 class="display text-3xl leading-none">BARASUARA</h3>
+                        </div>
+                    </article>
+                    <article class="group relative min-h-72 overflow-hidden bg-[#242321] p-6">
+                        <div
+                            class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=700&q=80')] bg-cover bg-center opacity-45 transition duration-500 group-hover:scale-105 group-hover:opacity-65">
+                        </div>
+                        <div class="relative flex h-full flex-col justify-between">
+                            <p class="text-xs font-bold uppercase tracking-widest text-flame">Sunset stage / 17.30</p>
+                            <h3 class="display text-3xl leading-none">WHITE<br>SHOES</h3>
+                        </div>
+                    </article>
+                    <article class="group relative min-h-72 overflow-hidden bg-[#242321] p-6">
+                        <div
+                            class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?auto=format&fit=crop&w=700&q=80')] bg-cover bg-center opacity-45 transition duration-500 group-hover:scale-105 group-hover:opacity-65">
+                        </div>
+                        <div class="relative flex h-full flex-col justify-between">
+                            <p class="text-xs font-bold uppercase tracking-widest text-flame">Basement / 16.00</p>
+                            <h3 class="display text-3xl leading-none">MALIQ &<br>D'ESSENTIALS</h3>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="tickets" class="bg-paper px-5 py-20 text-ink lg:px-10 lg:py-28">
+            <div class="mx-auto max-w-7xl">
+                <div class="mb-12 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+                    <div>
+                        <p class="mb-3 text-xs font-bold uppercase tracking-[.25em] text-flame">02 / Choose your entry
+                        </p>
+                        <h2 class="display text-4xl leading-none sm:text-6xl">Pilih<br>gelombangmu.</h2>
+                    </div>
+                    <p class="max-w-xs text-sm leading-relaxed text-ink/60">Harga yang jujur untuk malam yang tidak akan
+                        biasa.</p>
+                </div>
+                <div class="grid gap-4 lg:grid-cols-3">
+                    <button type="button" class="ticket-card active text-left" data-ticket="Presale"
+                        data-price="150000">
+                        <div class="flex min-h-64 flex-col justify-between border-2 border-flame p-6">
+                            <div class="flex justify-between"><span
+                                    class="text-xs font-bold uppercase tracking-widest ticket-muted">01 /
+                                    Limited</span><span class="text-xs font-bold uppercase tracking-widest">✓
+                                    Terpilih</span></div>
+                            <div>
+                                <h3 class="display text-3xl">PRESALE</h3>
+                                <p class="mt-2 text-sm ticket-muted">Akses 1 hari · Kuota terbatas</p>
+                                <p class="mt-6 text-2xl font-bold">Rp150.000</p>
+                            </div>
+                        </div>
+                    </button>
+                    <button type="button" class="ticket-card text-left" data-ticket="VIP" data-price="300000">
+                        <div class="flex min-h-64 flex-col justify-between border-2 border-ink/20 p-6">
+                            <div class="flex justify-between"><span
+                                    class="text-xs font-bold uppercase tracking-widest text-ink/50">02 / Extra
+                                    loud</span><span class="text-xs font-bold uppercase tracking-widest">Pilih →</span>
+                            </div>
+                            <div>
+                                <h3 class="display text-3xl">VIP</h3>
+                                <p class="mt-2 text-sm text-ink/60">Fast lane · Area viewing khusus</p>
+                                <p class="mt-6 text-2xl font-bold">Rp300.000</p>
+                            </div>
+                        </div>
+                    </button>
+                    <div class="flex min-h-64 flex-col justify-between border-2 border-ink bg-ink p-6 text-paper">
+                        <div class="flex justify-between"><span
+                                class="text-xs font-bold uppercase tracking-widest text-flame">03 / Info</span><span
+                                class="text-xs font-bold uppercase tracking-widest text-paper/50">18+</span></div>
+                        <div>
+                            <h3 class="display text-3xl">RULES</h3>
+                            <p class="mt-2 text-sm text-paper/60">Tiket tidak dapat dipindahtangankan. Bawa identitas
+                                saat masuk.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="order" class="border-t border-white/10 bg-[#191918] px-5 py-20 lg:px-10 lg:py-28">
+            <div class="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[.8fr_1.2fr]">
+                <div>
+                    <p class="mb-3 text-xs font-bold uppercase tracking-[.25em] text-flame">Home Of Bloom</p>
+                    <div class="flex h-80 w-full max-w-2xl items-center overflow-hidden bg-transparent sm:h-96">
+                        <img src="hoblogo.png" alt="Logo HOB"
+                            class="h-full w-full object-contain object-center mix-blend-screen">
+                    </div>
+                    <p class="mt-8 max-w-sm text-sm leading-relaxed text-paper/55">Isi data pemesan, pilih jumlah tiket,
+                        lalu lakukan pembayaran sesuai metode yang dipilih.</p>
+                    <div class="mt-10 border-l border-flame pl-5 text-sm">
+                        <p class="font-bold text-paper">HARGA TIKET</p>
+                        <p class="mt-1 text-2xl font-bold text-flame">Rp50.000 / tiket</p>
+                    </div>
+                </div>
+                <form id="order-form" class="border border-white/15 bg-ink p-6 sm:p-9">
+                    <div class="mb-8 flex items-center justify-between border-b border-white/15 pb-5">
+                        <h3 class="display text-xl">DATA PEMESAN</h3><span class="text-xs font-bold text-flame">FORM /
+                            01</span>
+                    </div>
+                    <div class="grid gap-6 sm:grid-cols-2">
+                        <label class="sm:col-span-2"><span
+                                class="mb-2 block text-xs font-bold uppercase tracking-widest text-paper/60">Nama
+                                lengkap</span><input required name="nama" type="text" autocomplete="name"
+                                placeholder="Nama sesuai identitas"
+                                class="w-full border-b border-white/25 bg-transparent px-0 py-3 text-base placeholder:text-paper/25"></label>
+                        <label><span
+                                class="mb-2 block text-xs font-bold uppercase tracking-widest text-paper/60">Email</span><input
+                                required name="email" type="email" autocomplete="email" placeholder="kamu@email.com"
+                                class="w-full border-b border-white/25 bg-transparent px-0 py-3 text-base placeholder:text-paper/25"></label>
+                        <label><span
+                                class="mb-2 block text-xs font-bold uppercase tracking-widest text-paper/60">WhatsApp</span><input
+                                required name="wa" type="tel" autocomplete="tel" placeholder="08xxxxxxxxxx"
+                                class="w-full border-b border-white/25 bg-transparent px-0 py-3 text-base placeholder:text-paper/25"></label>
+                        <input type="hidden" name="kategori" id="ticket-select" value="Presale">
+                        <label><span
+                                class="mb-2 block text-xs font-bold uppercase tracking-widest text-paper/60">Jumlah</span><input
+                                required name="jumlah" id="ticket-quantity" type="number" min="1" max="10" value="1"
+                                class="w-full border-b border-white/25 bg-transparent px-0 py-3 text-base"></label>
+                        <fieldset class="sm:col-span-2">
+                            <legend class="mb-3 text-xs font-bold uppercase tracking-widest text-paper/60">Metode
+                                pembayaran</legend>
+                            <div class="grid gap-3 sm:grid-cols-2">
+                                <label
+                                    class="flex cursor-pointer items-center gap-3 border border-white/25 p-4 has-[:checked]:border-flame has-[:checked]:bg-flame/10">
+                                    <input required checked type="radio" name="metodePembayaran" value="QRIS"
+                                        class="accent-flame">
+                                    <span><strong class="block text-sm">QRIS</strong><small class="text-paper/50">Scan
+                                            kode QR</small></span>
+                                </label>
+                                <label
+                                    class="flex cursor-pointer items-center gap-3 border border-white/25 p-4 has-[:checked]:border-flame has-[:checked]:bg-flame/10">
+                                    <input required type="radio" name="metodePembayaran" value="TRANSFER_BANK"
+                                        class="accent-flame">
+                                    <span><strong class="block text-sm">Transfer bank</strong><small
+                                            class="text-paper/50">BCA </small></span>
+                                </label>
+                            </div>
+                        </fieldset>
+                        <div id="payment-details"
+                            class="sm:col-span-2 border border-flame/30 bg-flame/5 p-4 text-sm text-paper/70">
+                            <p class="font-bold text-flame">Detail pembayaran</p>
+                            <div id="qris-detail">
+                                <p class="mt-2">Scan QRIS berikut untuk membayar.</p>
+                                <img src="qris.jpeg" alt="QRIS pembayaran" class="mt-3 w-48 rounded-lg bg-white p-2">
+                            </div>
+                            <div id="bank-detail" class="hidden">
+                                <p class="mt-3">Transfer ke rekening berikut:</p>
+                                <p class="mt-2 text-lg font-bold text-paper">BCA 3850962005</p>
+                                <p>a.n. MUHAMMAD ZAIDAN</p>
+                            </div>
+                        </div>
+                        <label class="sm:col-span-2"><span
+                                class="mb-2 block text-xs font-bold uppercase tracking-widest text-paper/60">Bukti
+                                pembayaran</span><input required name="buktiPembayaran" id="payment-proof" type="file"
+                                accept="image/jpeg,image/png,image/webp,application/pdf"
+                                class="block w-full border border-dashed border-white/25 p-3 text-sm text-paper/60 file:mr-4 file:border-0 file:bg-flame file:px-3 file:py-2 file:text-xs file:font-bold file:text-ink"></label>
+                    </div>
+                    <div class="mt-10 flex items-end justify-between border-t border-white/15 pt-6">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-widest text-paper/50">Total bayar</p><output
+                                id="total-price" class="display mt-2 block text-3xl text-flame">Rp50.000</output>
+                        </div><button id="submit-button" type="submit"
+                            class="bg-flame px-5 py-4 text-xs font-bold uppercase tracking-widest text-ink transition hover:bg-paper disabled:cursor-wait disabled:opacity-60">Kirim
+                            pesanan <span aria-hidden="true">↗</span></button>
+                    </div>
+                    <div id="form-message" class="mt-6 hidden border p-4 text-sm leading-relaxed" role="status"
+                        aria-live="polite"></div>
+                </form>
+                <section id="thank-you-page" class="hidden border border-flame/40 bg-ink p-7 sm:p-10"
+                    aria-live="polite">
+                    <p class="text-xs font-bold uppercase tracking-[.25em] text-flame">Order diterima</p>
+                    <h3 class="display mt-4 text-4xl leading-none sm:text-5xl">TERIMA<br><span
+                            class="text-flame">KASIH.</span></h3>
+                    <p class="mt-6 text-sm leading-relaxed text-paper/65">Pesanan Anda sudah kami terima. E-ticket akan
+                        dikirim ke email setelah pembayaran diverifikasi.</p>
+                    <div class="mt-7 border-y border-white/15 py-5 text-sm">
+                        <p class="text-paper/50">Order ID</p>
+                        <p id="thank-you-order-id" class="mt-1 font-bold text-flame">-</p>
+                        <p class="mt-4 text-paper/50">Total pembayaran</p>
+                        <p id="thank-you-total" class="mt-1 text-xl font-bold">-</p>
+                    </div>
+                    <a href="https://wa.me/6285156574759?text=Halo%2C%20saya%20belum%20menerima%20e-ticket%20pesanan%20saya."
+                        target="_blank" rel="noopener"
+                        class="mt-7 inline-flex w-full items-center justify-center bg-flame px-5 py-4 text-xs font-bold uppercase tracking-widest text-ink transition hover:bg-paper">Belum
+                        menerima tiket? Hubungi WhatsApp</a>
+                    <button id="new-order-button" type="button"
+                        class="mt-3 w-full border border-white/20 px-5 py-4 text-xs font-bold uppercase tracking-widest text-paper transition hover:border-flame hover:text-flame">Buat
+                        pesanan baru</button>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer
+        class="flex flex-col justify-between gap-4 border-t border-white/10 px-5 py-7 text-xs font-bold uppercase tracking-widest text-paper/40 sm:flex-row lg:px-10">
+        <span>HOB INVASION</span><span>Made From GigsTerkini</span>
+    </footer>
+
+    <script>
+        const prices = { Presale: 50000 };
+        const form = document.getElementById('order-form');
+        const select = document.getElementById('ticket-select');
+        const quantity = document.getElementById('ticket-quantity');
+        const totalPrice = document.getElementById('total-price');
+        const submitButton = document.getElementById('submit-button');
+        const message = document.getElementById('form-message');
+        const thankYouPage = document.getElementById('thank-you-page');
+        const thankYouOrderId = document.getElementById('thank-you-order-id');
+        const thankYouTotal = document.getElementById('thank-you-total');
+        const newOrderButton = document.getElementById('new-order-button');
+        const requiredFields = form.querySelectorAll('input[required], select[required]');
+        const paymentDetails = document.getElementById('payment-details');
+        const qrisDetail = document.getElementById('qris-detail');
+        const bankDetail = document.getElementById('bank-detail');
+        const paymentMethods = form.querySelectorAll('input[name="metodePembayaran"]');
+
+        const formatRupiah = (value) => new Intl.NumberFormat('id-ID', {
+            style: 'currency', currency: 'IDR', maximumFractionDigits: 0
+        }).format(value);
+
+        function updateTotal() {
+            const amount = Math.max(1, Number(quantity.value) || 1);
+            totalPrice.textContent = formatRupiah((prices[select.value] || 0) * amount);
+        }
+
+        function selectTicket(category) {
+            select.value = category;
+            document.querySelectorAll('.ticket-card').forEach((card) => {
+                const active = card.dataset.ticket === category;
+                card.classList.toggle('active', active);
+                card.querySelector('div').classList.toggle('border-flame', active);
+                card.querySelector('div').classList.toggle('border-ink\/20', !active);
+            });
+            updateTotal();
+        }
+
+        document.querySelectorAll('.ticket-card[data-ticket]').forEach((card) => {
+            card.addEventListener('click', () => {
+                selectTicket(card.dataset.ticket);
+                document.getElementById('order').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+        select.addEventListener('change', () => selectTicket(select.value));
+        quantity.addEventListener('input', updateTotal);
+        paymentMethods.forEach((method) => method.addEventListener('change', updatePaymentDetails));
+        requiredFields.forEach((field) => {
+            field.addEventListener('input', updateSubmitState);
+            field.addEventListener('change', updateSubmitState);
+        });
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                showMessage('failed', 'Lengkapi nama, email, WhatsApp, metode pembayaran, jumlah tiket, dan bukti pembayaran.');
+                updateSubmitState();
+                return;
+            }
+            if (SCRIPT_URL.includes('DEPLOYMENT_ID')) {
+                showMessage('failed', 'Ganti SCRIPT_URL dengan URL Web App Apps Script Anda terlebih dahulu.');
+                return;
+            }
+
+            const data = Object.fromEntries(new FormData(form).entries());
+            const proofFile = document.getElementById('payment-proof').files[0];
+            data.jumlah = Number(data.jumlah);
+            data.buktiPembayaran = {
+                namaFile: proofFile.name,
+                tipe: proofFile.type,
+                ukuran: proofFile.size,
+                data: await readFileAsDataUrl(proofFile)
+            };
+            submitButton.disabled = true;
+            submitButton.textContent = 'Memproses...';
+            message.classList.add('hidden');
+
+            try {
+                const response = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                if (!response.ok || result.status !== 'success') throw new Error(result.message || 'Pesanan gagal dibuat.');
+                thankYouOrderId.textContent = result.orderId || '-';
+                thankYouTotal.textContent = formatRupiah(result.totalBayar || 0);
+                form.classList.add('hidden');
+                thankYouPage.classList.remove('hidden');
+            } catch (error) {
+                showMessage('failed', error.message || 'Terjadi kesalahan koneksi. Coba lagi.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Kirim pesanan <span aria-hidden="true">↗</span>';
+            }
+        });
+
+        function showMessage(type, text) {
+            message.textContent = text;
+            message.className = `mt-6 border p-4 text-sm leading-relaxed ${type === 'success' ? 'border-green-400/50 bg-green-400/10 text-green-200' : 'border-flame/60 bg-flame/10 text-orange-100'}`;
+        }
+
+        function readFileAsDataUrl(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = () => reject(new Error('Bukti pembayaran tidak dapat dibaca.'));
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function updateSubmitState() {
+            submitButton.disabled = !form.checkValidity();
+        }
+
+        newOrderButton.addEventListener('click', () => {
+            form.reset();
+            selectTicket('Presale');
+            form.classList.remove('hidden');
+            thankYouPage.classList.add('hidden');
+            updatePaymentDetails();
+            updateSubmitState();
+        });
+
+        function updatePaymentDetails() {
+            const selectedMethod = form.querySelector('input[name="metodePembayaran"]:checked')?.value;
+            const isQris = selectedMethod === 'QRIS';
+            qrisDetail.classList.toggle('hidden', !isQris);
+            bankDetail.classList.toggle('hidden', isQris);
+            paymentDetails.classList.toggle('border-flame/30', isQris);
+            paymentDetails.classList.toggle('border-green-400/40', !isQris);
+        }
+
+        updateTotal();
+        updatePaymentDetails();
+        updateSubmitState();
+    </script>
+</body>
+
+</html>
