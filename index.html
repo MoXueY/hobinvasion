@@ -269,7 +269,7 @@
                 </div>
                 <div class="grid gap-4 lg:grid-cols-3">
                     <button type="button" class="ticket-card active text-left" data-ticket="Presale"
-                        data-price="150000">
+                        data-price="55000">
                         <div class="flex min-h-64 flex-col justify-between border-2 border-flame p-6">
                             <div class="flex justify-between"><span
                                     class="text-xs font-bold uppercase tracking-widest ticket-muted">01 /
@@ -321,7 +321,7 @@
                         lalu lakukan pembayaran sesuai metode yang dipilih.</p>
                     <div class="mt-10 border-l border-flame pl-5 text-sm">
                         <p class="font-bold text-paper">HARGA TIKET</p>
-                        <p class="mt-1 text-2xl font-bold text-flame">Rp50.000 / tiket</p>
+                        <p class="mt-1 text-2xl font-bold text-flame">Rp55.000 / tiket</p>
                     </div>
                 </div>
                 <form id="order-form" class="border border-white/15 bg-ink p-6 sm:p-9">
@@ -390,7 +390,7 @@
                     <div class="mt-10 flex items-end justify-between border-t border-white/15 pt-6">
                         <div>
                             <p class="text-xs font-bold uppercase tracking-widest text-paper/50">Total bayar</p><output
-                                id="total-price" class="display mt-2 block text-3xl text-flame">Rp50.000</output>
+                                id="total-price" class="display mt-2 block text-3xl text-flame">Rp55.000</output>
                         </div><button id="submit-button" type="submit"
                             class="bg-flame px-5 py-4 text-xs font-bold uppercase tracking-widest text-ink transition hover:bg-paper disabled:cursor-wait disabled:opacity-60">Kirim
                             pesanan <span aria-hidden="true">↗</span></button>
@@ -425,11 +425,11 @@
 
     <footer
         class="flex flex-col justify-between gap-4 border-t border-white/10 px-5 py-7 text-xs font-bold uppercase tracking-widest text-paper/40 sm:flex-row lg:px-10">
-        <span>HOB INVASION</span><span>Made From GigsTerkini</span>
+        <span>HOB INVASION</span><span>Ticketing by GigsTerkini</span>
     </footer>
 
     <script>
-        const prices = { Presale: 50000 };
+        const prices = { Presale: 55000 };
         const form = document.getElementById('order-form');
         const select = document.getElementById('ticket-select');
         const quantity = document.getElementById('ticket-quantity');
