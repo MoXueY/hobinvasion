@@ -115,7 +115,8 @@ function doPost(e) {
       throw new Error('Kuota ' + category + ' tidak mencukupi. Sisa: ' + stock.remaining + '.');
     }
 
-    const total = ticket.price * quantity;
+    const unitPrice = Number(ticket.price);
+    const total = Math.round(unitPrice * quantity);
     const orderId = createOrderId();
     const qrCode = 'ET-' + Utilities.getUuid().replace(/-/g, '').toUpperCase();
     const proofUrl = savePaymentProof(paymentProof, orderId);
