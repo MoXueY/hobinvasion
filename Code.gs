@@ -15,7 +15,7 @@ const CONFIG = {
   PAYMENT_PROOF_FOLDER: 'Payment Proofs',
   PAYMENT_INSTRUCTION: 'QRIS tersedia di halaman pembayaran. Untuk transfer bank, gunakan BCA 3850962005 a.n. MUHAMMAD ZAIDAN. Kirim bukti pembayaran dengan Order ID Anda.',
   TICKETS: {
-    'Presale': { price: 55000, quota: 500 }
+    'Presale': { price: 60000, quota: 500 }
   }
 };
 
